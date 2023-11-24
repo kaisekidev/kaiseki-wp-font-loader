@@ -8,6 +8,7 @@ use Kaiseki\WordPress\FontLoader\FileNameParser\FontFilenameParser;
 use Kaiseki\WordPress\FontLoader\FileNameParser\FontFilenameParserInterface;
 use Kaiseki\WordPress\FontLoader\Loader\LoaderInterface;
 use Kaiseki\WordPress\FontLoader\Loader\PathLoader;
+use Kaiseki\WordPress\FontLoader\Loader\PathLoaderFactory;
 
 final class ConfigProvider
 {
@@ -29,6 +30,7 @@ final class ConfigProvider
                 ],
                 'factories' => [
                     FontFaceRegistry::class => FontFaceRegistryFactory::class,
+                    PathLoader::class => PathLoaderFactory::class,
                 ],
             ],
         ];
