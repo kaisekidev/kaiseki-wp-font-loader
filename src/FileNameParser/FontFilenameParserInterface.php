@@ -24,7 +24,7 @@ interface FontFilenameParserInterface
      *
      * @return string
      */
-    public function getWeight(string $filename, string $directory): string;
+    public function getWeights(string $filename, string $directory): string;
 
     /**
      * Returns the font style.
@@ -34,5 +34,5 @@ interface FontFilenameParserInterface
      *
      * @return string
      */
-    public function getStyle(string $filename, string $directory): string;
+    public function getStyles(string $filename, string $directory): string;
 }

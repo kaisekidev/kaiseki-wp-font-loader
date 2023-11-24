@@ -12,8 +12,10 @@ use function strtolower;
 
 final class FontFilenameParser implements FontFilenameParserInterface
 {
-    private ?string $weight = null;
-    private ?string $style = null;
+    /** @var array<string, string> */
+    private array $weights = [];
+    /** @var array<string, string> */
+    private array $styles = [];
 
     private const WEIGHTS = [
         '100',
@@ -72,37 +74,37 @@ final class FontFilenameParser implements FontFilenameParserInterface
         return implode(' ', $nameParts);
     }
 
-    public function getWeight(string $filename, string $directory): string
+    public function getWeights(string $filename, string $directory): string
     {
-        if ($this->weight !== null) {
-            return $this->weight;
+        if (isset($this->weights[$filename])) {
+            return $this->weights[$filename];
         }
         $parts = array_map(fn ($part) => strtolower($part), $this->getFileNameParts($filename));
         foreach (self::WEIGHTS as $weight) {
             if (in_array($weight, $parts, true)) {
-                return $this->weight = $weight;
+                return $this->weights[$filename] = $weight;
             }
         }
         foreach (self::WEIGHT_NAMES as $name => $weight) {
             if (in_array($name, $parts, true)) {
-                return $this->weight = $weight;
+                return $this->weights[$filename] = $weight;
             }
         }
-        return $this->weight = '400';
+        return $this->weights[$filename] = '400';
     }
 
-    public function getStyle(string $filename, string $directory): string
+    public function getStyles(string $filename, string $directory): string
     {
-        if ($this->style !== null) {
-            return $this->style;
+        if (isset($this->styles[$filename])) {
+            return $this->styles[$filename];
         }
         $parts = array_map(fn ($part) => strtolower($part), $this->getFileNameParts($filename));
         foreach (self::STYLES as $style) {
             if (in_array($style, $parts, true)) {
-                return $this->style = $style;
+                return $this->styles[$filename] = $style;
             }
         }
-        return $this->style = '';
+        return $this->styles[$filename] = '';
     }
 
     /**

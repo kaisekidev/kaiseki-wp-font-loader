@@ -35,8 +35,8 @@ class FontFaceFactory
         return new FontFace(
             family: $this->filenameParser->getFamily($filename, $directory),
             sources: array_map(fn ($url) => new FontSource($url, ''), $urls),
-            weight: $this->filenameParser->getWeight($filename, $directory),
-            style: $this->filenameParser->getStyle($filename, $directory),
+            weight: $this->filenameParser->getWeights($filename, $directory),
+            style: $this->filenameParser->getStyles($filename, $directory),
         );
     }
 }
