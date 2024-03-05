@@ -70,6 +70,7 @@ class FontFaceStylesheetRenderer
             fn(FontFaceInterface $fontFace): bool => $fontFace->preload()
                 && in_array($location, $fontFace->locations(), true)
         );
+
         return implode(
             "\n",
             array_map(
@@ -98,6 +99,7 @@ class FontFaceStylesheetRenderer
             $fontFaces,
             fn(FontFaceInterface $fontFace): bool => in_array($location, $fontFace->locations(), true)
         );
+
         return \Safe\sprintf(
             '<style>%s</style>',
             implode(
@@ -123,6 +125,7 @@ class FontFaceStylesheetRenderer
         if ($fontFace->display() !== '') {
             $fontFaceContent[] = \Safe\sprintf("font-display:%s;", $fontFace->display());
         }
+
         return \Safe\sprintf(
             "@font-face{%s}",
             implode("", $fontFaceContent)
@@ -139,6 +142,7 @@ class FontFaceStylesheetRenderer
                 $source->format()
             );
         }
+
         return \Safe\sprintf("src:%s;", implode(",", $fontFaceSrc));
     }
 }

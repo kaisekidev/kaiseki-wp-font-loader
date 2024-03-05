@@ -24,6 +24,7 @@ final class FontFaceFilterPipeline implements FontFaceFilterInterface
             }
             $fontFace = ($filter)($fontFace, $filename);
         }
+
         return $fontFace;
     }
 }

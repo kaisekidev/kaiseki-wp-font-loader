@@ -67,36 +67,42 @@ class FontFace implements FontFaceInterface
     public function withDisplay(string $display): self
     {
         $this->display = $display;
+
         return $this;
     }
 
     public function withFamily(string $family): self
     {
         $this->family = $family;
+
         return $this;
     }
 
     public function withLocations(int ...$locations): self
     {
         $this->locations = $locations;
+
         return $this;
     }
 
     public function withPreload(bool $preload = true): self
     {
         $this->preload = $preload;
+
         return $this;
     }
 
     public function withStyle(string $style): FontFaceInterface
     {
         $this->style = $style;
+
         return $this;
     }
 
     public function withWeight(string $weight): FontFaceInterface
     {
         $this->weight = $weight;
+
         return $this;
     }
 }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Kaiseki\WordPress\FontLoader\Exception;
 
-class InvalidArgumentException extends \Exception
+use Exception;
+
+class InvalidArgumentException extends Exception
 {
 }

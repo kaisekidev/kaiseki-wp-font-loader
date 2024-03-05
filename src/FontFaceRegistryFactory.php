@@ -20,9 +20,9 @@ final class FontFaceRegistryFactory
     public function __invoke(
         ContainerInterface $container,
     ): FontFaceRegistry {
-        $config = Config::get($container);
+        $config = Config::fromContainer($container);
         /** @var array<string, FilterType|list<FilterType>> $filterConfig */
-        $filterConfig = $config->array('font_loader/filter', []);
+        $filterConfig = $config->array('font_loader.filter');
         /** @var array<string, FontFaceFilterInterface> $filters */
         $filters = [];
         foreach ($filterConfig as $key => $filter) {

@@ -6,16 +6,20 @@ namespace Kaiseki\WordPress\FontLoader\Loader;
 
 use Kaiseki\WordPress\FontLoader\FontFaceFactory;
 use Kaiseki\WordPress\FontLoader\FontFaceInterface;
+use RuntimeException;
 
 use function array_filter;
 use function array_map;
 use function array_merge;
+use function get_stylesheet_directory;
+use function get_stylesheet_directory_uri;
 use function in_array;
 use function is_dir;
 use function is_string;
 use function pathinfo;
 use function str_ends_with;
 use function str_replace;
+use function trailingslashit;
 
 use const DIRECTORY_SEPARATOR;
 use const PATHINFO_EXTENSION;
@@ -69,13 +73,13 @@ final class PathLoader implements LoaderInterface
      */
     private function loadFromPath(string $path): array
     {
-        $fontUrls = array_map(fn ($urls) => array_merge(
-            array_filter($urls, fn ($url) => str_ends_with($url, '.woff2')),
-            array_filter($urls, fn ($url) => str_ends_with($url, '.woff')),
-            array_filter($urls, fn ($url) => str_ends_with($url, '.ttf')),
-            array_filter($urls, fn ($url) => str_ends_with($url, '.otf')),
-            array_filter($urls, fn ($url) => str_ends_with($url, '.svg')),
-            array_filter($urls, fn ($url) => str_ends_with($url, '.eot')),
+        $fontUrls = array_map(fn($urls) => array_merge(
+            array_filter($urls, fn($url) => str_ends_with($url, '.woff2')),
+            array_filter($urls, fn($url) => str_ends_with($url, '.woff')),
+            array_filter($urls, fn($url) => str_ends_with($url, '.ttf')),
+            array_filter($urls, fn($url) => str_ends_with($url, '.otf')),
+            array_filter($urls, fn($url) => str_ends_with($url, '.svg')),
+            array_filter($urls, fn($url) => str_ends_with($url, '.eot')),
         ), $this->getFontUrls($path));
 
         $fontFaces = [];
@@ -108,8 +112,9 @@ final class PathLoader implements LoaderInterface
                 }
                 $urlPath = \Safe\parse_url($this->pathToUrl($path), PHP_URL_PATH);
                 if (!is_string($urlPath)) {
-                    throw new \RuntimeException('Could not parse URL path');
+                    throw new RuntimeException('Could not parse URL path');
                 }
+
                 return $urlPath;
             }, $paths);
         }

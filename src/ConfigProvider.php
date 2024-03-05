@@ -18,6 +18,20 @@ final class ConfigProvider
     public function __invoke(): array
     {
         return [
+            'font_loader' => [
+                'filter' => [],
+                'path_loader' => [
+                    'paths' => [],
+                    'locations' => [
+                        FontFaceInterface::FRONTEND,
+                        FontFaceInterface::BACKEND,
+                        FontFaceInterface::LOGIN,
+                    ],
+                    'display' => 'swap',
+                    'without_domain' => false,
+                    'include_subfolders' => false,
+                ],
+            ],
             'hook' => [
                 'provider' => [
                     FontFaceRegistry::class,

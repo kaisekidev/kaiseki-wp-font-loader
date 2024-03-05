@@ -71,6 +71,7 @@ final class FontFilenameParser implements FontFilenameParserInterface
             }
             $nameParts[] = $part;
         }
+
         return implode(' ', $nameParts);
     }
 
@@ -79,7 +80,7 @@ final class FontFilenameParser implements FontFilenameParserInterface
         if (isset($this->weights[$filename])) {
             return $this->weights[$filename];
         }
-        $parts = array_map(fn ($part) => strtolower($part), $this->getFileNameParts($filename));
+        $parts = array_map(fn($part) => strtolower($part), $this->getFileNameParts($filename));
         foreach (self::WEIGHTS as $weight) {
             if (in_array($weight, $parts, true)) {
                 return $this->weights[$filename] = $weight;
@@ -90,6 +91,7 @@ final class FontFilenameParser implements FontFilenameParserInterface
                 return $this->weights[$filename] = $weight;
             }
         }
+
         return $this->weights[$filename] = '400';
     }
 
@@ -98,12 +100,13 @@ final class FontFilenameParser implements FontFilenameParserInterface
         if (isset($this->styles[$filename])) {
             return $this->styles[$filename];
         }
-        $parts = array_map(fn ($part) => strtolower($part), $this->getFileNameParts($filename));
+        $parts = array_map(fn($part) => strtolower($part), $this->getFileNameParts($filename));
         foreach (self::STYLES as $style) {
             if (in_array($style, $parts, true)) {
                 return $this->styles[$filename] = $style;
             }
         }
+
         return $this->styles[$filename] = '';
     }
 

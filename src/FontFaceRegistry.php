@@ -6,14 +6,15 @@ namespace Kaiseki\WordPress\FontLoader;
 
 use Kaiseki\WordPress\FontLoader\FontFaceFilter\FontFaceFilterInterface;
 use Kaiseki\WordPress\FontLoader\Loader\LoaderInterface;
-use Kaiseki\WordPress\Hook\HookCallbackProviderInterface;
+use Kaiseki\WordPress\Hook\HookProviderInterface;
 
+use function add_action;
 use function fnmatch;
 use function pathinfo;
 
 use const PATHINFO_FILENAME;
 
-class FontFaceRegistry implements HookCallbackProviderInterface
+class FontFaceRegistry implements HookProviderInterface
 {
     /** @var list<FontFaceInterface> */
     private array $fontFaces;
@@ -32,7 +33,7 @@ class FontFaceRegistry implements HookCallbackProviderInterface
         $this->fontFaceStylesheetRenderer = new FontFaceStylesheetRenderer();
     }
 
-    public function registerHookCallbacks(): void
+    public function addHooks(): void
     {
         add_action('wp_head', [$this, 'renderFrontendStylesheet']);
         add_action('wp_head', [$this, 'renderFrontendPreloadLinks'], 1);

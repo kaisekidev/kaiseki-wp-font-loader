@@ -32,9 +32,10 @@ class FontFaceFactory
         }
         $filename = pathinfo($urls[0], PATHINFO_FILENAME);
         $directory = pathinfo($urls[0], PATHINFO_DIRNAME);
+
         return new FontFace(
             family: $this->filenameParser->getFamily($filename, $directory),
-            sources: array_map(fn ($url) => new FontSource($url, ''), $urls),
+            sources: array_map(fn($url) => new FontSource($url, ''), $urls),
             weight: $this->filenameParser->getWeights($filename, $directory),
             style: $this->filenameParser->getStyles($filename, $directory),
         );
