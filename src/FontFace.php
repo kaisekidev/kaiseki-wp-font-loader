@@ -9,6 +9,7 @@ class FontFace implements FontFaceInterface
     /** @var array<int> */
     private array $locations = [self::FRONTEND];
     private bool $preload = false;
+    private bool $variable = false;
 
     /**
      * @param string           $family
@@ -16,6 +17,7 @@ class FontFace implements FontFaceInterface
      * @param string           $weight
      * @param string           $style
      * @param string           $display
+     * @param string           $stretch
      */
     public function __construct(
         protected string $family,
@@ -23,6 +25,7 @@ class FontFace implements FontFaceInterface
         protected string $weight = '',
         protected string $style = '',
         protected string $display = '',
+        protected string $stretch = '',
     ) {
     }
 
@@ -52,6 +55,11 @@ class FontFace implements FontFaceInterface
     public function display(): string
     {
         return $this->display;
+    }
+
+    public function stretch(): string
+    {
+        return $this->stretch;
     }
 
     public function locations(): array
@@ -92,6 +100,13 @@ class FontFace implements FontFaceInterface
         return $this;
     }
 
+    public function withStretch(string $stretch): FontFaceInterface
+    {
+        $this->stretch = $stretch;
+
+        return $this;
+    }
+
     public function withStyle(string $style): FontFaceInterface
     {
         $this->style = $style;
@@ -102,6 +117,18 @@ class FontFace implements FontFaceInterface
     public function withWeight(string $weight): FontFaceInterface
     {
         $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function isVariable(): bool
+    {
+        return $this->variable;
+    }
+
+    public function makeVariable(bool $variable = true): FontFaceInterface
+    {
+        $this->variable = $variable;
 
         return $this;
     }

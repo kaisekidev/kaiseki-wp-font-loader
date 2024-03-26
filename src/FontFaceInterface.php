@@ -82,6 +82,22 @@ interface FontFaceInterface
     public function withDisplay(string $display): self;
 
     /**
+     * Returns the font stretch value.
+     *
+     * @return string
+     */
+    public function stretch(): string;
+
+    /**
+     * Set the font display value.
+     *
+     * @param string $stretch
+     *
+     * @return self
+     */
+    public function withStretch(string $stretch): self;
+
+    /**
      * Returns the locations where to load the font.
      *
      * @return list<int>
@@ -112,4 +128,20 @@ interface FontFaceInterface
      * @return self
      */
     public function withPreload(bool $preload = true): self;
+
+    /**
+     * Check if font is variable
+     *
+     * @return bool
+     */
+    public function isVariable(): bool;
+
+    /**
+     * Make the font variable
+     *
+     * @param bool $variable
+     *
+     * @return self
+     */
+    public function makeVariable(bool $variable = true): self;
 }

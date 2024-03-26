@@ -136,6 +136,22 @@ class FontFaceStylesheetRenderer
     {
         $fontFaceSrc = [];
         foreach ($fontFace->sources() as $source) {
+            if (
+                $fontFace->isVariable()
+                && !in_array($source->format(), ['eot', 'svg'], true)
+            ) {
+                $fontFaceSrc[] = \Safe\sprintf(
+                    'url("%s")format("%s  supports variations")',
+                    $source->url(),
+                    $source->format()
+                );
+                $fontFaceSrc[] = \Safe\sprintf(
+                    'url("%s")format("%s-variations")',
+                    $source->url(),
+                    $source->format()
+                );
+                continue;
+            }
             $fontFaceSrc[] = \Safe\sprintf(
                 'url("%s")format("%s")',
                 $source->url(),
