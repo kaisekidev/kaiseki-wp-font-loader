@@ -150,6 +150,7 @@ class FontFaceStylesheetRenderer
                     $source->url(),
                     $source->format()
                 );
+
                 continue;
             }
             $fontFaceSrc[] = \Safe\sprintf(
