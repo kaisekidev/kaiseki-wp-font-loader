@@ -17,20 +17,30 @@ final class VariableFontFilter implements FontFaceFilterInterface
 
     public function __invoke(FontFaceInterface $fontFace, string $filename): ?FontFaceInterface
     {
-        $fontFace->makeVariable();
+        return $fontFace->makeVariable()
+            ->withWeight($this->weight)
+            ->withStyle($this->style)
+            ->withStretch($this->stretch);
+    }
 
-        if ($this->weight !== '') {
-            $fontFace->withWeight($this->weight);
-        }
+    public function withWeight(string $weight): self
+    {
+        $this->weight = $weight;
 
-        if ($this->style !== '') {
-            $fontFace->withStyle($this->style);
-        }
+        return $this;
+    }
 
-        if ($this->stretch !== '') {
-            $fontFace->withStretch($this->stretch);
-        }
+    public function withStyle(string $style): self
+    {
+        $this->style = $style;
 
-        return $fontFace;
+        return $this;
+    }
+
+    public function withStretch(string $stretch): self
+    {
+        $this->stretch = $stretch;
+
+        return $this;
     }
 }

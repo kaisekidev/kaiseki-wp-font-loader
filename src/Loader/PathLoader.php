@@ -7,6 +7,7 @@ namespace Kaiseki\WordPress\FontLoader\Loader;
 use Kaiseki\WordPress\FontLoader\FontFaceFactory;
 use Kaiseki\WordPress\FontLoader\FontFaceInterface;
 use RuntimeException;
+use Throwable;
 
 use function array_filter;
 use function array_map;
@@ -16,7 +17,9 @@ use function get_stylesheet_directory_uri;
 use function in_array;
 use function is_dir;
 use function is_string;
+use function parse_url;
 use function pathinfo;
+use function scandir;
 use function str_ends_with;
 use function str_replace;
 use function trailingslashit;
@@ -110,7 +113,7 @@ final class PathLoader implements LoaderInterface
                 if (!$this->withoutDomain) {
                     return $this->pathToUrl($path);
                 }
-                $urlPath = \Safe\parse_url($this->pathToUrl($path), PHP_URL_PATH);
+                $urlPath = parse_url($this->pathToUrl($path), PHP_URL_PATH);
                 if (!is_string($urlPath)) {
                     throw new RuntimeException('Could not parse URL path');
                 }
@@ -129,9 +132,17 @@ final class PathLoader implements LoaderInterface
      */
     private function getFontPaths(string $path): array
     {
-        $files = \Safe\scandir($path);
+        try {
+            $files = scandir($path);
+        } catch (Throwable $e) {
+            throw new RuntimeException('Could not scan directory ' . $path);
+        }
 
         $fonts = [];
+
+        if ($files === false) {
+            return $fonts;
+        }
 
         foreach ($files as $file) {
             if ($file === '.' || $file === '..') {

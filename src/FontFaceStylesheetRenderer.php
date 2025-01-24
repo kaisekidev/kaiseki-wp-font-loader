@@ -8,6 +8,7 @@ use function array_filter;
 use function array_map;
 use function implode;
 use function in_array;
+use function sprintf;
 
 class FontFaceStylesheetRenderer
 {
@@ -82,7 +83,7 @@ class FontFaceStylesheetRenderer
 
     private function renderPreloadLink(FontFaceInterface $fontFace): string
     {
-        return \Safe\sprintf(
+        return sprintf(
             '<link rel="preload" href="%s" as="font" type="font/%s" crossorigin>',
             $fontFace->sources()[0]->url(),
             $fontFace->sources()[0]->format()
@@ -100,7 +101,7 @@ class FontFaceStylesheetRenderer
             fn(FontFaceInterface $fontFace): bool => in_array($location, $fontFace->locations(), true)
         );
 
-        return \Safe\sprintf(
+        return sprintf(
             '<style>%s</style>',
             implode(
                 "\n",
@@ -114,21 +115,21 @@ class FontFaceStylesheetRenderer
 
     private function renderFontFace(FontFaceInterface $fontFace): string
     {
-        $fontFaceContent = [\Safe\sprintf("font-family:'%s';", $fontFace->family())];
+        $fontFaceContent = [sprintf("font-family:'%s';", $fontFace->family())];
         $fontFaceContent[] = $this->renderFontFaceSrc($fontFace);
         if ($fontFace->weight() !== '') {
-            $fontFaceContent[] = \Safe\sprintf("font-weight:%s;", $fontFace->weight());
+            $fontFaceContent[] = sprintf('font-weight:%s;', $fontFace->weight());
         }
         if ($fontFace->style() !== '') {
-            $fontFaceContent[] = \Safe\sprintf("font-style:%s;", $fontFace->style());
+            $fontFaceContent[] = sprintf('font-style:%s;', $fontFace->style());
         }
         if ($fontFace->display() !== '') {
-            $fontFaceContent[] = \Safe\sprintf("font-display:%s;", $fontFace->display());
+            $fontFaceContent[] = sprintf('font-display:%s;', $fontFace->display());
         }
 
-        return \Safe\sprintf(
-            "@font-face{%s}",
-            implode("", $fontFaceContent)
+        return sprintf(
+            '@font-face{%s}',
+            implode('', $fontFaceContent)
         );
     }
 
@@ -140,12 +141,12 @@ class FontFaceStylesheetRenderer
                 $fontFace->isVariable()
                 && !in_array($source->format(), ['eot', 'svg'], true)
             ) {
-                $fontFaceSrc[] = \Safe\sprintf(
+                $fontFaceSrc[] = sprintf(
                     'url("%s")format("%s supports variations")',
                     $source->url(),
                     $source->format()
                 );
-                $fontFaceSrc[] = \Safe\sprintf(
+                $fontFaceSrc[] = sprintf(
                     'url("%s")format("%s-variations")',
                     $source->url(),
                     $source->format()
@@ -153,13 +154,13 @@ class FontFaceStylesheetRenderer
 
                 continue;
             }
-            $fontFaceSrc[] = \Safe\sprintf(
+            $fontFaceSrc[] = sprintf(
                 'url("%s")format("%s")',
                 $source->url(),
                 $source->format()
             );
         }
 
-        return \Safe\sprintf("src:%s;", implode(",", $fontFaceSrc));
+        return sprintf('src:%s;', implode(',', $fontFaceSrc));
     }
 }

@@ -8,6 +8,7 @@ use function array_keys;
 use function array_map;
 use function implode;
 use function in_array;
+use function preg_split;
 use function strtolower;
 
 final class FontFilenameParser implements FontFilenameParserInterface
@@ -117,6 +118,8 @@ final class FontFilenameParser implements FontFilenameParserInterface
      */
     private function getFileNameParts(string $filename): array
     {
-        return \Safe\preg_split('/[- ]/', $filename);
+        $parts = preg_split('/[- ]/', $filename);
+
+        return $parts === false ? [$filename] : $parts;
     }
 }
