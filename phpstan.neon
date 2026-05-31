@@ -4,5 +4,3 @@ parameters:
     paths:
         - src/
         - tests/
-    stubFiles:
-    		- vendor/php-stubs/wordpress-stubs/wordpress-stubs.php
