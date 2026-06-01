@@ -15,7 +15,7 @@ final class VariableFontFilter implements FontFaceFilterInterface
     ) {
     }
 
-    public function __invoke(FontFaceInterface $fontFace, string $filename): ?FontFaceInterface
+    public function __invoke(FontFaceInterface $fontFace, string $filename): FontFaceInterface
     {
         return $fontFace->makeVariable()
             ->withWeight($this->weight)
