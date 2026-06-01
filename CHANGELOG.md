@@ -25,6 +25,6 @@ First tagged release.
 
 ### Fixed
 
-- PHPStan 2 (level max), at the root: typed the `FontFace::$locations` property as `list<int>` and use
+- PHPStan 2 (level max), at the root: typed the `FontFace::$locations` property as `list<int>` and used
   `array_values()` in `withLocations()`; narrowed `PreloadFilter`/`VariableFontFilter::__invoke()`
   return types to `FontFaceInterface` (they never return `null`). No behaviour change.

@@ -20,6 +20,8 @@ Register `ConfigProvider` with your laminas-style config aggregator and configur
 key:
 
 ```php
+use Kaiseki\WordPress\FontLoader\FontFaceInterface;
+use Kaiseki\WordPress\FontLoader\FontFaceRegistry;
 use Kaiseki\WordPress\FontLoader\FontFaceFilter\PreloadFilter;
 use Kaiseki\WordPress\FontLoader\FontFaceFilter\VariableFontFilter;
 
