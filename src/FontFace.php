@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Kaiseki\WordPress\FontLoader;
 
+use function array_values;
+
 class FontFace implements FontFaceInterface
 {
-    /** @var array<int> */
+    /** @var list<int> */
     private array $locations = [self::FRONTEND];
     private bool $preload = false;
     private bool $variable = false;
@@ -88,7 +90,7 @@ class FontFace implements FontFaceInterface
 
     public function withLocations(int ...$locations): self
     {
-        $this->locations = $locations;
+        $this->locations = array_values($locations);
 
         return $this;
     }

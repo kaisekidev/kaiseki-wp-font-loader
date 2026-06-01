@@ -8,7 +8,7 @@ use Kaiseki\WordPress\FontLoader\FontFaceInterface;
 
 final class PreloadFilter implements FontFaceFilterInterface
 {
-    public function __invoke(FontFaceInterface $fontFace, string $filename): ?FontFaceInterface
+    public function __invoke(FontFaceInterface $fontFace, string $filename): FontFaceInterface
     {
         return $fontFace->withPreload();
     }
