@@ -6,7 +6,11 @@
         "add_action",
         "get_stylesheet_directory",
         "get_stylesheet_directory_uri",
-        "trailingslashit"
+        "is_admin",
+        "trailingslashit",
+        "wp_add_inline_style",
+        "wp_enqueue_style",
+        "wp_register_style"
     ],
     "php-core-extensions" : [
         "Core",

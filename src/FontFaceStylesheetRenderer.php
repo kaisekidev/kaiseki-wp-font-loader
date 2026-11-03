@@ -91,26 +91,34 @@ class FontFaceStylesheetRenderer
     }
 
     /**
+     * The @font-face rules for one location, without a <style> wrapper.
+     *
      * @param list<FontFaceInterface> $fontFaces
      * @param int                     $location
      */
-    private function renderStylesheet(array $fontFaces, int $location): string
+    public function renderFontFaceRules(array $fontFaces, int $location): string
     {
         $fontFaces = array_filter(
             $fontFaces,
             fn(FontFaceInterface $fontFace): bool => in_array($location, $fontFace->locations(), true)
         );
 
-        return sprintf(
-            '<style>%s</style>',
-            implode(
-                "\n",
-                array_map(
-                    fn(FontFaceInterface $fontFace): string => $this->renderFontFace($fontFace),
-                    $fontFaces
-                )
+        return implode(
+            "\n",
+            array_map(
+                fn(FontFaceInterface $fontFace): string => $this->renderFontFace($fontFace),
+                $fontFaces
             )
         );
+    }
+
+    /**
+     * @param list<FontFaceInterface> $fontFaces
+     * @param int                     $location
+     */
+    private function renderStylesheet(array $fontFaces, int $location): string
+    {
+        return sprintf('<style>%s</style>', $this->renderFontFaceRules($fontFaces, $location));
     }
 
     private function renderFontFace(FontFaceInterface $fontFace): string
