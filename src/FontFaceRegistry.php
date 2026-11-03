@@ -10,12 +10,18 @@ use Kaiseki\WordPress\Hook\HookProviderInterface;
 
 use function add_action;
 use function fnmatch;
+use function is_admin;
 use function pathinfo;
+use function wp_add_inline_style;
+use function wp_enqueue_style;
+use function wp_register_style;
 
 use const PATHINFO_FILENAME;
 
 class FontFaceRegistry implements HookProviderInterface
 {
+    public const BLOCK_EDITOR_CANVAS_HANDLE = 'kaiseki-font-faces-block-editor';
+
     /** @var list<FontFaceInterface> */
     private array $fontFaces;
     private FontFaceStylesheetRenderer $fontFaceStylesheetRenderer;
@@ -41,6 +47,31 @@ class FontFaceRegistry implements HookProviderInterface
         add_action('admin_head', [$this, 'renderAdminPreloadLinks'], 1);
         add_action('login_head', [$this, 'renderLoginStylesheet']);
         add_action('login_head', [$this, 'renderLoginPreloadLinks'], 1);
+        add_action('enqueue_block_assets', [$this, 'enqueueBlockEditorCanvasStylesheet']);
+    }
+
+    /**
+     * Since WordPress 7.1 the block editor content always renders in an iframe. admin_head does not
+     * reach that document, but styles enqueued on enqueue_block_assets do. That hook also runs on the
+     * frontend, where wp_head already prints the rules.
+     */
+    public function enqueueBlockEditorCanvasStylesheet(): void
+    {
+        if (!is_admin()) {
+            return;
+        }
+
+        $rules = $this->fontFaceStylesheetRenderer->renderFontFaceRules(
+            $this->fontFaces,
+            FontFaceInterface::BACKEND
+        );
+        if ($rules === '') {
+            return;
+        }
+
+        wp_register_style(self::BLOCK_EDITOR_CANVAS_HANDLE, false, [], null);
+        wp_add_inline_style(self::BLOCK_EDITOR_CANVAS_HANDLE, $rules);
+        wp_enqueue_style(self::BLOCK_EDITOR_CANVAS_HANDLE);
     }
 
     public function renderFrontendStylesheet(): void
